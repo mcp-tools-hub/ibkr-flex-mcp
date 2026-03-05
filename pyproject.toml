@@ -1,0 +1,14 @@
+[project]
+name = "ibkr-flex-mcp"
+version = "0.1.0"
+description = "MCP server for Interactive Brokers Flex Web Service — read-only portfolio data"
+requires-python = ">=3.11"
+dependencies = ["mcp[cli]>=1.0.0"]
+license = {text = "MIT"}
+
+[project.scripts]
+ibkr-flex-mcp = "server:mcp.run"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
