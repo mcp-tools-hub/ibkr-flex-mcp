@@ -95,7 +95,7 @@ def get_portfolio() -> str:
         )
 
     lines.append("\n## Cash")
-    for c in root.iter("CashReport"):
+    for c in root.iter("CashReportCurrency"):
         ccy = c.get("currency", "")
         if ccy:
             lines.append(f"  {ccy}: {c.get('endingCash', '')} (settled: {c.get('endingSettledCash', '')})")
@@ -134,7 +134,7 @@ def get_cash() -> str:
 
     root = ET.fromstring(xml)
     lines = ["# Cash Report\n"]
-    for c in root.iter("CashReport"):
+    for c in root.iter("CashReportCurrency"):
         ccy = c.get("currency", "")
         if not ccy:
             continue
