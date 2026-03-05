@@ -3,7 +3,7 @@ name = "ibkr-flex-mcp"
 version = "0.1.0"
 description = "MCP server for Interactive Brokers Flex Web Service — read-only portfolio data"
 requires-python = ">=3.11"
-dependencies = ["mcp[cli]>=1.0.0", "pydantic-xml>=2.0.0"]
+dependencies = ["mcp[cli]>=1.0.0", "pydantic-xml>=2.0.0", "yfinance>=0.2.0"]
 license = {text = "MIT"}
 
 [project.scripts]

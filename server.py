@@ -1,11 +1,34 @@
 """IBKR Flex Web Service MCP Server — read-only portfolio data."""
 
+import yfinance as yf
 from mcp.server.fastmcp import FastMCP
 
 from client import FlexClient
 
-mcp = FastMCP("ibkr-portfolio")
+mcp = FastMCP("ibkr")
 client = FlexClient()
+
+
+@mcp.tool()
+def get_price(symbol: str) -> str:
+    """Get live stock price, day change, and key stats. Use .L suffix for LSE (e.g. PCT.L, AGT.L)."""
+    try:
+        t = yf.Ticker(symbol)
+        info = t.fast_info
+        price = info.last_price
+        prev = info.previous_close
+        change = price - prev
+        pct = (change / prev) * 100 if prev else 0
+        sign = "+" if change >= 0 else ""
+        return (
+            f"**{symbol.upper()}** {price:.2f} {info.currency}\n"
+            f"  Change: {sign}{change:.2f} ({sign}{pct:.2f}%)\n"
+            f"  Day Range: {info.day_low:.2f} - {info.day_high:.2f}\n"
+            f"  52w Range: {info.year_low:.2f} - {info.year_high:.2f}\n"
+            f"  Market Cap: {info.market_cap:,.0f}" if info.market_cap else ""
+        )
+    except Exception as e:
+        return f"Error fetching price for {symbol}: {e}"
 
 
 @mcp.tool()
